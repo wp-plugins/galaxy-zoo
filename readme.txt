@@ -53,7 +53,15 @@ a blog page is displayed, which could add several seconds to the load time)
 
 == Frequently Asked Questions ==
 
-= How do I change the background on the AJAX preloader
+= How do I get the plugin to work with my Galaxy Zoo account =
+
+As of the moment, only selected beta testers from Galaxy Zoo forums were 
+given API keys required by the plugin to access Galaxy Zoo account data. If
+you would like to stay informed and be notified when the plugin becomes 
+available to the general public, sign-up at Galaxy Zoo Forums 
+(http://www.galaxyzooforum.org/). 
+
+= How do I change the background on the AJAX preloader =
 
 The preloader can be changed via the plugin's CSS: On you Wordpress Dashboard
 select "Plugins" then "Editor", then select "Galaxy Zoo" in the 
