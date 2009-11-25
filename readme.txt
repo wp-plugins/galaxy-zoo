@@ -53,7 +53,7 @@ a blog page is displayed, which could add several seconds to the load time)
 
 == Frequently Asked Questions ==
 
-= How do I get the plugin to work with my Galaxy Zoo account =
+= How do I get the plugin work with my Galaxy Zoo account =
 
 As of the moment, only selected beta testers from Galaxy Zoo forums were 
 given API keys required by the plugin to access Galaxy Zoo account data. If
@@ -94,4 +94,3 @@ upload it to the plugin directory at /wp-content/plugins/galaxy-zoo/img
 
 = 1.0b =
 * The initial release of this plugin. Only a few themes have been tested.
- 
