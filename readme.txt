@@ -3,7 +3,7 @@ Contributors: Tomas Vorobjov
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=9965032
 Tags: Galaxy Zoo, astronomy, stats
 Requires at least: 2.8
-Tested up to: 2.8.4
+Tested up to: 2.9
 Stable tag: 1.0b
 
 This plugin offers two WordPress widgets through which users can display data
