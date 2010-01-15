@@ -75,6 +75,8 @@ class DataManager {
 	
 	/**
 	 * Retrieves galaxy zoo favorites data
+	 *
+	 * @since	0.9
 	 * 
 	 * @return	An object of class <code>SimpleXMLElement</code> with 
 	 * 			Galaxy Zoo favorites galaxy data or <code>FALSE</code> 
@@ -101,6 +103,59 @@ class DataManager {
 	}
 	
 	/**
+	 * Deletes all cache files (by setting the content to zero length)
+	 * 
+	 * @since	1.0
+	 */
+	public static function deleteCache(){
+		
+		if ( @$handle = opendir( GALAXY_ZOO_CACHE_FOLDER ) ) {
+			while ( FALSE !== ( $file = readdir( $handle ) ) ) {
+				if( $file != "." && $file != "..") {
+					$file = GALAXY_ZOO_CACHE_FOLDER . '/' . $file;
+					$fp = fopen( $file, 'w+' );
+					fwrite( $fp, '' );
+					fclose( $fp );
+				};
+			};
+			closedir( $handle );
+		}		
+		
+	}
+	
+	/**
+	 * Returns the number of active cache files (i.e. non expired)
+	 *   
+	 * @return 	The number of active cache files (i.e. non expired)
+	 */	
+	public static function getNumberOfCacheFiles(){
+		
+		$cache_expire_time = get_option( OPTIONS_CACHE_EXPIRE_TIME );
+		if ( empty( $cache_expire_time ) ){ $cache_expire_time = CACHE_EXPIRE_TIME_DEFAULT; }
+		
+		$numberOfCacheFiles = 0;
+		
+		if ( @$handle = opendir( GALAXY_ZOO_CACHE_FOLDER ) ) {
+			while ( FALSE !== ( $file = readdir( $handle ) ) ) {
+				if( $file != "." && $file != ".." && $file != '.htaccess' ) {
+					
+					$filepath = GALAXY_ZOO_CACHE_FOLDER . '/' . $file;
+					$expire_time = filemtime( $filepath ) + $cache_expire_time * 60;
+						
+					if ( time() < $expire_time ){
+						$result = @file_get_contents( $filepath );
+						if ( !empty( $result ) ){ $numberOfCacheFiles++; }
+					}
+				};
+			};
+			closedir( $handle );
+		}		
+		
+		
+		return $numberOfCacheFiles;
+	}
+	
+	/**
 	 * Requests data from the specified url
 	 * 
 	 * @param string $url
@@ -112,6 +167,20 @@ class DataManager {
 	private static function requestData( $url ) {
 		
 		$result = '';
+		
+		$filename = GALAXY_ZOO_CACHE_FOLDER . '/' . md5( $url );
+		
+		if ( file_exists( $filename ) ){
+			
+			$cache_expire_time = get_option( OPTIONS_CACHE_EXPIRE_TIME );
+			if ( empty( $cache_expire_time ) ){ $cache_expire_time = CACHE_EXPIRE_TIME_DEFAULT; }
+			$expire_time = filemtime( $filename ) + $cache_expire_time * 60;			
+			
+			if ( time() < $expire_time ){
+				$result = @file_get_contents( $filename );
+				if ( !empty( $result ) ){ return $result; }
+			}
+		}
 		
 		if ( function_exists('curl_init') ) {
 			
@@ -135,6 +204,11 @@ class DataManager {
 				$url_with_get
 			);
 		}
+		
+		// store the result
+		$fp = fopen( $filename, 'w+' );
+		fwrite( $fp, $result );
+		fclose( $fp );
 		
 		return $result;
 	}	

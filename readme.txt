@@ -3,7 +3,7 @@ Contributors: Tomas Vorobjov
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=9965032
 Tags: Galaxy Zoo, astronomy, stats
 Requires at least: 2.8
-Tested up to: 2.9
+Tested up to: 2.9.1
 Stable tag: 1.0b
 
 This plugin offers two WordPress widgets through which users can display data
@@ -92,5 +92,23 @@ upload it to the plugin directory at /wp-content/plugins/galaxy-zoo/img
 
 == ChangeLog ==
 
+= 1.0 =
+* Added data caching
+* Added caching controls (delete cache button & cache expiration time) to the 
+Admin Panel
+
 = 1.0b =
 * The initial release of this plugin. Only a few themes have been tested.
+
+== Upgrade Notice ==
+
+= 1.0 =
+1.0 is the first stable fully function version, including caching to reduce the
+number of API requests to the Galaxy Zoo API server. 
+
+== Known Issues ==
+
+= 1.0 =
+* Changing the number of favorites on the favorites widget will NOT reset 
+the cache, i.e. the new number of favorite galaxies will be requested
+only once the current cache expires (or is manually deleted)

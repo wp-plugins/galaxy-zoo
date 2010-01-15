@@ -1,5 +1,6 @@
 <?php
 
+require_once( 'DataManager.php' );
 require_once( 'GalaxyZooConstants.php' );
 
 /**
@@ -23,10 +24,6 @@ class GalaxyZooAdminPanel {
 	 */
 	function GalaxyZooAdminPanel(){
 		
-		if ( get_option( OPTIONS_DATE_FORMAT ) == '' ){
-			update_option( OPTIONS_DATE_FORMAT, 'm/d/Y' );	
-		}
-				
 		add_menu_page(
 			"GalaxyZoo", 
 			"GalaxyZoo", 
@@ -35,8 +32,11 @@ class GalaxyZooAdminPanel {
 			array( &$this, 'menuPageHandler' ) 
 		);
 		
-		if ( isset( $_POST['Submit'] ) ){
+		if ( isset( $_POST['submit_save_changes'] ) ){
 			$this->updateOptions();
+		}
+		if ( isset( $_POST['submit_delete_cache'] ) ){
+			DataManager::deleteCache();
 		}
 		
 	}
@@ -96,11 +96,44 @@ class GalaxyZooAdminPanel {
 							<p><a href="http://uk3.php.net/manual/en/function.date.php" target="_blank">Documentation on date formatting</a>. Click "Save Changes" to update sample output.</p>
 						</td>
 					</tr>
+
+					<tr valign="top">
+						<th scope="row">
+							<label for="cache_expire_time">Cache Expire Time</label>
+						</th>
+						<td>
+							<input id="cache_expire_time" class="small-text" type="text" value="<?php echo get_option( OPTIONS_CACHE_EXPIRE_TIME ); ?>" name="cache_expire_time" />
+							<span class="description">
+								minutes
+							</span>
+						</td>
+					</tr>				
+					
 				</tbody>
 			</table>
 			<p class="submit">
-				<input class="button-primary" type="submit" value="Save Changes" name="Submit" id="Submit" />
+				<input class="button-primary" type="submit" value="Save Changes" name="submit_save_changes" id="submit_save_changes" />
 			</p>
+		</form>		
+		
+		<form method="post" class="" action="?page=galaxyzoo/manage.php"; ?>
+		<?php wp_nonce_field(); ?>
+			
+			<h3 style="cursor: pointer;">Cache Contents</h3>
+			
+			<table class="form-table">
+				<tbody>
+					<tr valign="top">
+						<th scope="row">Active Cache Files</th>
+						<td><? echo DataManager::getNumberOfCacheFiles(); ?></td>
+					</tr>
+				</tbody>
+			</table>			
+
+			<p class="submit">
+				<input class="button-primary" type="submit" value="Delete Cache" name="submit_delete_cache" id="submit_delete_cache" />
+			</p>			
+			
 		</form>		
 		
 	</div>
@@ -120,10 +153,18 @@ class GalaxyZooAdminPanel {
 		if ( isset( $_POST['user_id'] ) ){
 			update_option( OPTIONS_USER_ID, trim( $_POST['user_id'] ) );
 		}
-
 		if ( isset( $_POST['date_format'] ) ){
 			update_option( OPTIONS_DATE_FORMAT, trim( $_POST['date_format'] ) );
-		}		
+		}	
+
+		if ( isset( $_POST['cache_expire_time'] ) ){
+			$expire_time = trim( $_POST['cache_expire_time'] );
+			if ( !is_numeric( $expire_time ) || $expire_time < CACHE_EXPIRE_TIME_MINIMUM ){
+				$expire_time = CACHE_EXPIRE_TIME_MINIMUM;
+			}
+			update_option( OPTIONS_CACHE_EXPIRE_TIME, $expire_time );
+		}
+		
 	}
 }
 

@@ -41,6 +41,17 @@ class GalaxyZoo {
 	function activate(){
 		
 		//global $wpdb;
+		
+		if ( get_option( OPTIONS_DATE_FORMAT ) == '' ){
+			update_option( OPTIONS_DATE_FORMAT, 'm/d/Y' );	
+		}
+		
+		if ( get_option( OPTIONS_CACHE_EXPIRE_TIME ) == '' ){
+			update_option( OPTIONS_CACHE_EXPIRE_TIME, CACHE_EXPIRE_TIME_DEFAULT );	
+		}
+		
+		@chmod( GALAXY_ZOO_CACHE_FOLDER, 0777); 
+		
 	}	
 	
 	/**
