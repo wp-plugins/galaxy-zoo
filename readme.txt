@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: Galaxy Zoo, astronomy, stats
 Requires at least: 2.8
 Tested up to: 2.9.1
-Stable tag: 1.0b
+Stable tag: 1.0
 
 This plugin offers two WordPress widgets through which users can display data
 from their accounts on Galaxy Zoo. 
