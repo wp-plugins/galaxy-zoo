@@ -2,7 +2,7 @@
 
 /*
 Plugin Name: Galaxy Zoo
-Plugin URI: http://www.scibuff.com/2009/11/17/galaxy-zoo-wordpress-plugin/
+Plugin URI: http://www.scibuff.com/2009/11/24/galaxy-zoo-wordpress-plugin/
 Description: Connects your Galaxy Zoo account with your blog
 Version: 1.0
 Author: Tomas Vorobjov aka SciBuff
