@@ -82,7 +82,7 @@ class GalaxyZooAdminPanel {
 						<td>
 							<input id="user_id" class="regular-text code" type="text" value="<?php echo get_option( OPTIONS_USER_ID ); ?>" name="user_id" />
 							<span class="description">
-								You Galaxy Zoo user ID
+								Your Galaxy Zoo user ID
 							</span>
 						</td>
 					</tr>
